@@ -1,0 +1,35 @@
+name: Deploy .NET API para Azure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'dotnet-api/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build e Publish
+        run: |
+          dotnet restore dotnet-api
+          dotnet build dotnet-api --configuration Release
+          dotnet publish dotnet-api --configuration Release --output ./output
+
+      - name: Deploy para Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: api-idp-demo
+          slot-name: production
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./output
