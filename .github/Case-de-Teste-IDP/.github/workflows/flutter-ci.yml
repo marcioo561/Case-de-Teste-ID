@@ -1,0 +1,34 @@
+name: Flutter CI
+
+on:
+  push:
+    paths:
+      - 'flutter-app/**'
+  pull_request:
+    paths:
+      - 'flutter-app/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Instalar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+
+      - name: Instalar dependências
+        run: flutter pub get
+        working-directory: flutter-app
+
+      - name: Build web
+        run: flutter build web
+        working-directory: flutter-app
+
+      - name: Build APK
+        run: flutter build apk
+        working-directory: flutter-app
