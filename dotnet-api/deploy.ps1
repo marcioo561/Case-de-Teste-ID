@@ -1,0 +1,3 @@
+Write-Host "Simulando deploy da API .NET para Azure App Service..."
+# dotnet publish + az webapp deployment source config-zip ...
+Write-Host "Deploy finalizado com sucesso!"
