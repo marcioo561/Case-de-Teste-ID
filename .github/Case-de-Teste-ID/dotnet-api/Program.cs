@@ -4,3 +4,4 @@ var app = builder.Build();
 app.MapGet("/", () => "API .NET funcionando!");
 
 app.Run();
+// commit para rodar o workflow novamente
